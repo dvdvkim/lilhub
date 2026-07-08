@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <!--
+      Content-Security-Policy for the admin shell. Sveltia loads from unpkg and
+      talks to the GitHub API and the shared lilAgents auth broker, so those
+      origins are allowlisted here. Uploaded media and avatars can be any https
+      image.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://unpkg.com https://api.github.com https://auth.lilhub.me https://lilhub-auth.lilagents.workers.dev; frame-src https://auth.lilhub.me https://lilhub-auth.lilagents.workers.dev;"
+    />
+    <title>Content Manager</title>
+  </head>
+  <body>
+    <!--
+      Sveltia CMS admin shell. This is a STATIC file in public/ on purpose, not
+      an Astro page: Astro processes <script> tags in .astro files and would
+      bundle this loader away, leaving /admin a blank page. Serving it statically
+      is the canonical Sveltia pattern (matches our other sites). The collection
+      config and GitHub sign-in (through the shared lilAgents auth broker) come
+      from /admin/config.yml.
+    -->
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+  </body>
+</html>

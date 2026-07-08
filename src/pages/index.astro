@@ -1,0 +1,103 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import LinkCard from "../components/LinkCard.astro";
+import Footer from "../components/Footer.astro";
+import profile from "../content/profile.json";
+
+// This is the linktree itself: the page each lilHub owner publishes. It reads
+// the single source of truth (src/content/profile.json, edited at /admin) and
+// renders the avatar, name, bio, and link cards. The brand color in
+// profile.theme.primary drives the whole palette via Layout's injectTheme.
+
+interface Link {
+  title: string;
+  subtitle?: string;
+  url: string;
+  icon?: string;
+}
+
+const name = (profile.name || "Your Name").trim();
+const description = (profile.description || "").trim();
+const primary =
+  (profile as { theme?: { primary?: string } }).theme?.primary || "#536ee5";
+
+// Self-contained monogram avatar (filled circle in the brand color + white
+// initial), used when there is no real photo. Mirrors the /create preview so a
+// freshly deployed page shows the same picture the builder showed, and updates
+// automatically if the name or color changes in /admin.
+function monogramAvatar(n: string, hex: string): string {
+  const letter = (n.trim()[0] || "?").toUpperCase();
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">` +
+    `<circle cx="40" cy="40" r="40" fill="${hex}"/>` +
+    `<text x="40" y="40" dy="0.35em" text-anchor="middle" ` +
+    `font-family="Poppins, ui-sans-serif, system-ui, sans-serif" ` +
+    `font-size="40" font-weight="600" fill="#ffffff">${letter}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+const rawAvatar = (profile.avatar || "").trim();
+const avatar =
+  !rawAvatar || rawAvatar === "/uploads/avatar-placeholder.svg"
+    ? monogramAvatar(name, primary)
+    : rawAvatar;
+const showAttribution = profile.showAttribution !== false;
+const links = (profile.links ?? []).filter((l: Link) => l && l.url) as Link[];
+
+// SEO title + description. Default the title to "Name | lilHub" and the
+// description to the owner's bio, but let either be overridden from /admin
+// (the Meta Title / Meta Description fields) when they want full control.
+const metaTitle =
+  ((profile as { metaTitle?: string }).metaTitle || "").trim() ||
+  `${name} | lilHub`;
+const metaDescription =
+  ((profile as { metaDescription?: string }).metaDescription || "").trim() ||
+  description ||
+  `${name} on lilHub`;
+---
+
+<Layout title={metaTitle} description={metaDescription} ogImage="/og.png">
+  <div
+    class="min-h-screen flex flex-col items-center justify-center py-8 px-4 bg-background text-foreground"
+  >
+    <ThemeToggle />
+
+    <main class="w-full max-w-md mx-auto flex flex-col items-center">
+      <header class="flex flex-col items-center">
+        <img
+          src={avatar}
+          alt={`${name} profile photo`}
+          class="w-20 h-20 object-cover rounded-full mb-4"
+          width="80"
+          height="80"
+        />
+
+        <h1 class="text-2xl font-semibold text-foreground mb-1">{name}</h1>
+
+        {
+          description && (
+            <p class="text-sm text-center text-muted-foreground max-w-xs mb-4">
+              {description}
+            </p>
+          )
+        }
+      </header>
+
+      <div class="w-full space-y-3 mt-2">
+        {
+          links.map((link) => (
+            <LinkCard
+              title={link.title}
+              subtitle={link.subtitle}
+              url={link.url}
+              icon={link.icon}
+            />
+          ))
+        }
+      </div>
+
+    </main>
+
+    <Footer show={showAttribution} />
+  </div>
+</Layout>
