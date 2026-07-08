@@ -1,9 +1,8 @@
 {
   "name": "The Joker",
-  "title": "",
-  "description": "I'm the joker, baby.",
+  "description": "I'm the joker, baby. Heyo!",
   "avatar": "/uploads/avatar.jpg",
-  "showAttribution": true,
+  "showAttribution": false,
   "theme": {
     "primary": "#ff3939",
     "secondary": "#ff3939",
@@ -23,5 +22,8 @@
       "url": "https://example.com",
       "icon": "mail"
     }
-  ]
+  ],
+  "metaTitle": "",
+  "metaDescription": "",
+  "title": ""
 }
