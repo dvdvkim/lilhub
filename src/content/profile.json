@@ -1,11 +1,12 @@
 {
-  "name": "Your Name",
-  "description": "Add a short bio here, then swap these starter links for your own.",
-  "avatar": "/uploads/avatar-placeholder.svg",
+  "name": "The Joker",
+  "title": "",
+  "description": "I'm the joker, baby.",
+  "avatar": "/uploads/avatar.jpg",
   "showAttribution": true,
   "theme": {
-    "primary": "#6366F1",
-    "secondary": "#4F46E5",
+    "primary": "#ff3939",
+    "secondary": "#ff3939",
     "background": "#FFFFFF",
     "text": "#1F2937"
   },
@@ -17,24 +18,10 @@
       "icon": "globe"
     },
     {
-      "title": "Instagram",
-      "subtitle": "@yourhandle",
-      "url": "https://instagram.com/yourhandle",
-      "icon": "instagram"
-    },
-    {
-      "title": "YouTube",
-      "subtitle": "Your channel",
-      "url": "https://youtube.com/@yourhandle",
-      "icon": "youtube"
-    },
-    {
-      "title": "Email me",
-      "subtitle": "you@yourdomain.com",
-      "url": "mailto:you@yourdomain.com",
+      "title": "Message me",
+      "subtitle": "",
+      "url": "https://example.com",
       "icon": "mail"
     }
-  ],
-  "metaTitle": "",
-  "metaDescription": ""
+  ]
 }
